@@ -195,7 +195,7 @@ public class BasicBullet implements Entity{
 	 * @return An image of a bullet collision frame.
 	 */
 	public BufferedImage getBulletCollision(){
-		return bulletCollisions[(int)System.currentTimeMillis()%3];
+		return bulletCollisions[0];
 	}
 	
 }
