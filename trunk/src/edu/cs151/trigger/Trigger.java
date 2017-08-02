@@ -29,7 +29,7 @@ public class Trigger extends JFrame{
 		content = new GameManager();
 		this.add(content);
 		init();
-	
+
 		Timer t = new Timer(UPDATE_RATE, new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				content.gameLoop();

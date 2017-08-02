@@ -53,6 +53,8 @@ public class PlayerShip implements Entity{
 
 	private static ArrayList<BufferedImage> explosionFrames = new ArrayList<BufferedImage>(8);
 
+	private static final SoundPlayer soundPlayer = new SoundPlayer();
+
 	/**
 	 * Gets the Singleton object of this class.
 	 * @return The reference to the Singleton
@@ -251,8 +253,8 @@ public class PlayerShip implements Entity{
 				deathSequence = true;
 				deathTimer = 0;
 				laserLevel = 0;
-				lives--;
-				new Thread(new SoundPlayer("/res/soundeffects/playerexplosion.wav")).start();
+				//lives--;
+				soundPlayer.playSound("/res/soundeffects/playerexplosion.wav");
 
 			}
 		}
@@ -349,7 +351,7 @@ public class PlayerShip implements Entity{
 			break;
 		}
 
-		new Thread(new SoundPlayer("/res/soundeffects/shot2.wav")).start();
+		soundPlayer.playSound("/res/soundeffects/shot2.wav");
 	}
 	
 	/**
@@ -394,7 +396,7 @@ public class PlayerShip implements Entity{
 	{
 		if(powerLevel!=6){
 			powerLevel++;
-			new Thread(new SoundPlayer("/res/soundeffects/powerup.wav")).start();
+			soundPlayer.playSound("/res/soundeffects/powerup.wav");
 		}
 	}
 	/**

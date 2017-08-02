@@ -48,7 +48,9 @@ public class BossTwo extends Enemy
 	
 	private boolean showExplosion;
 	private static BufferedImage boss2Image;
-	
+
+	private static final SoundPlayer soundPlayer = new SoundPlayer();
+
 	public static enum BossTwoType 
 	{
 		BOSS2
@@ -177,7 +179,7 @@ public class BossTwo extends Enemy
 		{
 			showExplosion = true;
 			PlayerShip.getInstance().increaseScore(500);
-			new Thread(new SoundPlayer("/res/soundeffects/bossexplosion.wav")).start();
+			soundPlayer.playSound("/res/soundeffects/bossexplosion.wav");
 			currentExplosionFrame = 0;
 			timeStamp = 0;
 		}

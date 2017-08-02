@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.BufferedReader;
@@ -14,7 +16,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.LinkedList;
-import javax.swing.JPanel;
+import javax.swing.*;
 
 import edu.cs151.trigger.entities.Entity;
 import edu.cs151.trigger.entities.enemies.Boss;
@@ -77,6 +79,10 @@ public class GameManager extends JPanel implements KeyListener, ProjectileListen
 	private int menuOrLevel = 0;
 	private final int numberOfLevels = 2;
 	private int currentLevel;
+
+	private static final SoundPlayer soundPlayer = new SoundPlayer();
+
+
 	public GameManager(){
 
 		this.setFocusable(true);
@@ -277,7 +283,6 @@ public class GameManager extends JPanel implements KeyListener, ProjectileListen
 			}
 		}
 		this.repaint();
-
 	}
 	/**
 	 * Paints the appropriate layers.
@@ -320,7 +325,6 @@ public class GameManager extends JPanel implements KeyListener, ProjectileListen
 	 * Track whether a player is pressing a key.
 	 */
 	public void keyPressed(KeyEvent ke) {
-		
 		if(ke.getKeyCode() == KeyEvent.VK_SHIFT){
 			speed = 2;
 		}
@@ -334,9 +338,12 @@ public class GameManager extends JPanel implements KeyListener, ProjectileListen
 		}
 		if(ke.getKeyCode() == KeyEvent.VK_UP){
 			if(menuOrLevel == 0){
-				new Thread(new SoundPlayer("/res/soundeffects/shot2.wav")).start();
+				soundPlayer.playSound("/res/soundeffects/shot2.wav");
 				menu.moveUp();
 			} else {
+				if(keyDown){
+					keyUp = false;
+				}
 				keyUp = true;
 			}
 		}
@@ -350,22 +357,31 @@ public class GameManager extends JPanel implements KeyListener, ProjectileListen
 		}
 		if(ke.getKeyCode() == KeyEvent.VK_DOWN){
 			if(menuOrLevel == 0){
-				new Thread(new SoundPlayer("/res/soundeffects/shot2.wav")).start();
+				soundPlayer.playSound("/res/soundeffects/shot2.wav");
 				menu.moveDown();
 			} else {
+				if(keyUp){
+					keyUp = false;
+				}
 				keyDown = true;
 			}
 		}
 		if(ke.getKeyCode() == KeyEvent.VK_Z){
+			if(firinglaser){
+				firinglaser = false;
+			}
 			firing = true;
 		}
 		if(ke.getKeyCode() == KeyEvent.VK_X)
 		{
+			if( firing ){
+				firing = false;
+			}
 			firinglaser = true;
 		}
 		if(ke.getKeyCode() == KeyEvent.VK_ENTER){
 			if(menuOrLevel == 0){
-				new Thread(new SoundPlayer("/res/soundeffects/shot2.wav")).start();
+				soundPlayer.playSound("/res/soundeffects/shot2.wav");
 				selectionMenu(menu.getCurrentIndex());
 			}
 			else if(menuOrLevel == 2){

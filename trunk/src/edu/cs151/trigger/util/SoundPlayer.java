@@ -2,6 +2,7 @@ package edu.cs151.trigger.util;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.concurrent.*;
 
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
@@ -11,7 +12,29 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.SourceDataLine;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
-public class SoundPlayer implements Runnable{
+
+public class SoundPlayer {
+	private static SoundPlayer instance = null;
+	private ThreadPoolExecutor threadPoll = null;
+	public SoundPlayer(){
+		this.threadPoll = new ThreadPoolExecutor(10, 40, 3000, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<>(), new ThreadPoolExecutor.DiscardPolicy());
+	}
+
+	public static SoundPlayer getInstance(){
+		if( instance == null ){
+			instance = new SoundPlayer();
+		}
+		return instance;
+	}
+
+	public void playSound( String file ){
+		System.out.println(this.threadPoll.getCorePoolSize());
+		this.threadPoll.submit( new SoundClip( file ));
+	}
+}
+
+
+class SoundClip implements Runnable{
 
 	private String filename;
 	private AudioInputStream audioInputStream;
@@ -21,7 +44,7 @@ public class SoundPlayer implements Runnable{
 	 * Creates a separate thread which will play a sound file.
 	 * @param file The file path of the sound effect to play.
 	 */
-	public SoundPlayer(String file){
+	public SoundClip(String file){
 		this.filename = file;
 	}
 

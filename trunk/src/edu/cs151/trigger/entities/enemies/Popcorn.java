@@ -49,7 +49,9 @@ public class Popcorn extends Enemy{
 	private int currentExplosionFrame;
 	
 	private boolean showExplosion;
-	
+
+	private static final SoundPlayer soundPlayer = new SoundPlayer();
+
 	/**
 	 * There are 3 types of POPCORN in each level. As of now there are 2 set of enemies.
 	 * @author Tan Nguyen
@@ -181,17 +183,17 @@ public class Popcorn extends Enemy{
 	public void fireProjectile() {
 		switch(type){
 		case POPCORN1:
-			if(spawnTime%20==0 && (rand.nextInt(100) > 30) && y < 420){
+			if(spawnTime%40==0 && (rand.nextInt(100) > 30) && y < 420){
 				this.listener.addProjectile(new EnemyBasicBullet(x+(img.getWidth()/2), y+(img.getWidth()/2), BasicBullet.STRAIGHT_PATH_DOWN, 6));
 			}
 			break;
 		case POPCORN2:
-			if(spawnTime%20==0 && (rand.nextInt(100) > 30) && y < 420){
+			if(spawnTime%40==0 && (rand.nextInt(100) > 30) && y < 420){
 				this.listener.addProjectile(new EnemyBasicBullet(x+(img.getWidth()/2), y+(img.getWidth()/2), 0, 3));
 			}
 			break;
 		case POPCORN3:
-			if(spawnTime%20==0 && (rand.nextInt(100) > 30) && y < 420){
+			if(spawnTime%40==0 && (rand.nextInt(100) > 30) && y < 420){
 				this.listener.addProjectile(new EnemyBasicBullet(x+(img.getWidth()/2), y+(img.getWidth()/2), BasicBullet.STRAIGHT_PATH_DOWN, 5));
 				EnemyBasicBullet left = new EnemyBasicBullet(x+(img.getWidth()/2), y+(img.getWidth()/2), BasicBullet.NO_PATH, 5);
 				EnemyBasicBullet right = new EnemyBasicBullet(x+(img.getWidth()/2), y+(img.getWidth()/2), BasicBullet.NO_PATH, 5);
@@ -232,7 +234,7 @@ public class Popcorn extends Enemy{
 			currentExplosionFrame = 0;
 			timeStamp = 0;
 			PlayerShip.getInstance().increaseScore(50);
-			new Thread(new SoundPlayer("/res/soundeffects/explosion.wav")).start();
+			soundPlayer.playSound("/res/soundeffects/explosion.wav");
 		}
 		
 	}
