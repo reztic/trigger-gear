@@ -423,16 +423,6 @@ public class GameManager extends GameJPanel implements KeyListener, ProjectileLi
 				keyDown = false;
 			}
 			if(ke.getKeyCode() == KeyEvent.VK_Z){
-				if (System.getProperty("os.name").toLowerCase().startsWith("mac")) {
-					try {
-				        Robot robot = new Robot();
-				        robot.keyPress(KeyEvent.VK_UP);
-				        robot.keyRelease(KeyEvent.VK_UP);
-
-				} catch (AWTException e) {
-				        e.printStackTrace();
-				}
-				}
 				firing = false;
 			}
 			if(ke.getKeyCode() == KeyEvent.VK_X)
@@ -471,7 +461,16 @@ public class GameManager extends GameJPanel implements KeyListener, ProjectileLi
 			{
 				firedelay = gameTime + 9;
 				ps.fire();
-				
+				//Workaround to prevent OSX 10.12 from showing the accent menu on key hold.
+				if (System.getProperty("os.name").toLowerCase().startsWith("mac")) {
+					try {
+				        Robot robot = new Robot();
+				        robot.keyPress(KeyEvent.VK_CANCEL);
+				        robot.keyRelease(KeyEvent.VK_CANCEL);
+					} catch (AWTException e) {
+					        e.printStackTrace();
+					}
+				}
 			}
 		}
 		else if(firinglaser)
