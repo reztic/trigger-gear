@@ -1,9 +1,11 @@
 package edu.cs151.trigger;
 
+import java.awt.AWTException;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.Robot;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -48,7 +50,7 @@ import edu.cs151.trigger.util.Event.EventType;
  * @author Chris Wong
  *
  */
-public class GameManager extends JPanel implements KeyListener, ProjectileListener{
+public class GameManager extends GameJPanel implements KeyListener, ProjectileListener{
 
 	LinkedList<Event> eventList;
 	PlayerShip ps;
@@ -421,6 +423,16 @@ public class GameManager extends JPanel implements KeyListener, ProjectileListen
 				keyDown = false;
 			}
 			if(ke.getKeyCode() == KeyEvent.VK_Z){
+				if (System.getProperty("os.name").toLowerCase().startsWith("mac")) {
+					try {
+				        Robot robot = new Robot();
+				        robot.keyPress(KeyEvent.VK_UP);
+				        robot.keyRelease(KeyEvent.VK_UP);
+
+				} catch (AWTException e) {
+				        e.printStackTrace();
+				}
+				}
 				firing = false;
 			}
 			if(ke.getKeyCode() == KeyEvent.VK_X)

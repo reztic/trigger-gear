@@ -17,7 +17,7 @@ public class SoundPlayer {
 	private static SoundPlayer instance = null;
 	private ThreadPoolExecutor threadPoll = null;
 	public SoundPlayer(){
-		this.threadPoll = new ThreadPoolExecutor(10, 40, 3000, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<>(), new ThreadPoolExecutor.DiscardPolicy());
+		this.threadPoll = new ThreadPoolExecutor(10, 40, 3000, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<Runnable>(), new ThreadPoolExecutor.DiscardPolicy());
 	}
 
 	public static SoundPlayer getInstance(){
@@ -28,7 +28,6 @@ public class SoundPlayer {
 	}
 
 	public void playSound( String file ){
-		System.out.println(this.threadPoll.getCorePoolSize());
 		this.threadPoll.submit( new SoundClip( file ));
 	}
 }
